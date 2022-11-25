@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_market_app/controllers/cart_controller.dart';
 import 'package:flutter_market_app/controllers/favorite_controller.dart';
 import 'package:flutter_market_app/controllers/product_controller.dart';
+import 'package:flutter_market_app/data/favorite_service.dart';
+import 'package:flutter_market_app/data/product_service.dart';
 import 'package:flutter_market_app/models/product.dart';
 
 class ProductScreen extends StatefulWidget {
   final ProductController productController;
   final CartController cartController;
   final FavoriteController favoriteController;
+  final String category;
 
   const ProductScreen(
       {Key? key,
       required this.productController,
       required this.cartController,
-      required this.favoriteController})
+      required this.favoriteController,
+      required this.category})
       : super(key: key);
 
   @override
@@ -21,13 +25,8 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  bool isFavorite = false;
-
-  @override
-  void initState() {
-    isFavorite = widget.productController.favorite;
-    super.initState();
-  }
+  ProductService productService = ProductService();
+  FavoriteService favoriteService = FavoriteService();
 
   @override
   Widget build(BuildContext context) {
@@ -41,19 +40,38 @@ class _ProductScreenState extends State<ProductScreen> {
                 ? const Icon(Icons.favorite_outlined)
                 : const Icon(Icons.favorite_border_outlined),
             onPressed: () {
-              widget.favoriteController.favorites.add(Product(
-                      image: widget.productController.image,
-                      title: widget.productController.title,
-                      description: widget.productController.description,
-                      price: widget.productController.price,
-                      favorite: widget.productController.favorite)
-                  .toMap());
+              if (widget.productController.favorite) {
+                productService.updateFavorite(
+                    category: widget.category,
+                    productId: widget.productController.id,
+                    favorite: false);
+
+                favoriteService.removeFavorite(
+                    productUuid: widget.productController.uuid);
+              } else {
+                productService.updateFavorite(
+                    category: widget.category,
+                    productId: widget.productController.id,
+                    favorite: true);
+
+                favoriteService.addFavorite(
+                    uuid: widget.productController.uuid,
+                    image: widget.productController.image,
+                    title: widget.productController.title,
+                    description: widget.productController.description,
+                    price: widget.productController.price);
+              }
+
+              widget.productController.favorite =
+                  !widget.productController.favorite;
+              setState(() {});
             },
           )
         ],
       ),
       body: Column(
         children: [
+          Text(widget.productController.uuid),
           SizedBox(
               height: MediaQuery.of(context).size.height / 2.3,
               width: MediaQuery.of(context).size.width,
@@ -109,7 +127,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                     widget.productController.description,
                                 price: widget.productController.price,
                                 favorite: widget.productController.favorite)
-                            .toMap());
+                            .toJson());
                         widget.cartController.addCartPrice(
                             price: widget.productController.price);
                         Navigator.of(context).pop();

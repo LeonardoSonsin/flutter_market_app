@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_market_app/controllers/favorite_controller.dart';
+import 'package:flutter_market_app/data/favorite_service.dart';
 import 'package:flutter_market_app/models/product.dart';
 import 'package:get/get.dart';
+
+import '../home/widgets/product_card.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({Key? key}) : super(key: key);
@@ -15,11 +18,30 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> favorites = favoriteController.favorites;
+    FavoriteService favoriteService = FavoriteService();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Favorites')),
-      body: Column(
+      body: StreamBuilder<List<Product>>(
+        stream: favoriteService.getFavorites(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final products = snapshot.data!;
+            return GridView.count(
+                childAspectRatio: 0.815,
+                mainAxisSpacing: 16.0,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                crossAxisSpacing: 16.0,
+                children: products.map(buildProductCard).toList());
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+
+      /*Column(
         children: [
           SizedBox(
             height: 500,
@@ -62,7 +84,17 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 itemCount: favoriteController.favorites.length),
           ),
         ],
-      ),
+      ),*/
     );
   }
+
+  Widget buildProductCard(Product product) => ProductCard(
+      id: product.id,
+      uuid: product.uuid,
+      image: product.image,
+      title: product.title,
+      description: product.description,
+      price: product.price,
+      favorite: product.favorite,
+      category: 'Category');
 }

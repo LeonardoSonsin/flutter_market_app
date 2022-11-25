@@ -6,11 +6,11 @@ class CartController extends GetxController {
   List<Map<String, dynamic>> cart = [];
   double total = 0.0;
 
-  addCartPrice({required double price}) {
-    total += price;
+  addCartPrice({required String price}) {
+    total += double.parse(price);
   }
-  removeCartPrice({required double price}) {
-    total -= price;
+  removeCartPrice({required String price}) {
+    total -= double.parse(price);
   }
   resetCartPrice() {
     total = 0;
