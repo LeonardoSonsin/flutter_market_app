@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "255878712782",
+    "project_id": "market-app-7870a",
+    "storage_bucket": "market-app-7870a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255878712782:android:16e25eba24d3ea8f09ef9f",
+        "android_client_info": {
+          "package_name": "com.example.flutter_market_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "255878712782-k7rnb3n9u2p2l6gk9r145rr861ada2pe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBojbqDqJQhXMVcGwF7QulQgUxDqB8F5p4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "255878712782-k7rnb3n9u2p2l6gk9r145rr861ada2pe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

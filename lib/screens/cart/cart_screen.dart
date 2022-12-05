@@ -38,25 +38,29 @@ class _CartScreenState extends State<CartScreen> {
             child: ListView.separated(
                 itemBuilder: (BuildContext context, int index) {
                   Product product = Product(
+                      category: cart[index]['category'],
                       image: cart[index]['image'],
                       title: cart[index]['title'],
                       description: cart[index]['description'],
                       price: cart[index]['price'],
-                      favorite: cart[index]['favorite']);
+                      favorite: cart[index]['favorite'],
+                      quantity: cart[index]['quantity']);
                   return Container(
                     padding: const EdgeInsets.all(8.0),
                     height: 150,
                     child: Row(
                       children: [
-                        Image.network(product.image),
+                        SizedBox(
+                            height: 250,
+                            width: 250,
+                            child: Image.network(product.image, fit: BoxFit.cover)),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(product.title),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              padding: const EdgeInsets.only(top: 8.0),
                               child: Text(
                                 '\$${product.price}',
                                 style: const TextStyle(
@@ -67,20 +71,33 @@ class _CartScreenState extends State<CartScreen> {
                               children: [
                                 IconButton(
                                   onPressed: () {
-                                    cart.removeAt(index);
+                                    cart[index]['quantity'] == 1
+                                        ? cart.removeAt(index)
+                                        : cart[index]['quantity'] =
+                                            cart[index]['quantity'] - 1;
                                     cartController.removeCartPrice(
                                         price: product.price);
                                     setState(() {});
                                   },
                                   icon: const Icon(Icons.remove),
                                 ),
-                                const Text('1'),
+                                Text('${product.quantity}'),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    if (cart[index]['quantity'] < 10) {
+                                      cart[index]['quantity'] =
+                                          cart[index]['quantity'] + 1;
+                                      cartController.addCartPrice(
+                                          price: product.price, quantity: 1);
+                                    }
+                                    setState(() {});
+                                  },
                                   icon: const Icon(Icons.add),
                                 ),
                               ],
-                            )
+                            ),
+                            Text(
+                                '\$${(double.parse(product.price) * product.quantity).toStringAsFixed(2)}'),
                           ],
                         )
                       ],

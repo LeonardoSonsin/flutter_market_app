@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_market_app/screens/cart/cart_screen.dart';
-import 'package:flutter_market_app/screens/favorite/favorite_screen.dart';
 import 'package:flutter_market_app/screens/home/home_screen.dart';
+import 'package:flutter_market_app/themes/theme_colors.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const CartScreen(),
-    const FavoriteScreen(),
+    const CartScreen(),
   ];
 
   void onItemTapped(int index) {
@@ -30,14 +30,27 @@ class _NavigationScreenState extends State<NavigationScreen> {
     return Scaffold(
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: ThemeColors.greenColor,
         currentIndex: _selectedIndex,
         onTap: onItemTapped,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_basket), label: "Basket"),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favorites"),
+        items: [
+          BottomNavigationBarItem(
+              icon: _selectedIndex == 0
+                  ? const Icon(Icons.home)
+                  : const Icon(Icons.home_outlined),
+              label: "Home"),
+          BottomNavigationBarItem(
+              icon: _selectedIndex == 1
+                  ? const Icon(Icons.shopping_basket)
+                  : const Icon(Icons.shopping_basket_outlined),
+              label: "Basket"),
+          BottomNavigationBarItem(
+              icon: _selectedIndex == 2
+                  ? const Icon(Icons.favorite)
+                  : const Icon(Icons.favorite_outline),
+              label: "Favorites"),
         ],
       ),
     );
