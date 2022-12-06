@@ -7,7 +7,7 @@ ThemeData myTheme = ThemeData(
   brightness: Brightness.light,
   fontFamily: 'Montserrat',
   textTheme: const TextTheme(
-    titleLarge: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w900, color: Colors.white),
+    titleLarge: TextStyle(fontSize: 26.0, fontWeight: FontWeight.w900, color: Colors.white),
     titleMedium: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
     titleSmall: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold, color: ThemeColors.greyAccent),
     bodyLarge: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: ThemeColors.greyAccent),

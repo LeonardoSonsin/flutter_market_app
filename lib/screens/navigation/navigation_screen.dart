@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_market_app/screens/cart/cart_screen.dart';
 import 'package:flutter_market_app/screens/home/home_screen.dart';
+import 'package:flutter_market_app/screens/order/order_screen.dart';
+import 'package:flutter_market_app/screens/settings/settings_screen.dart';
 import 'package:flutter_market_app/themes/theme_colors.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -15,8 +16,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const CartScreen(),
-    const CartScreen(),
+    const OrderScreen(),
+    const SettingsScreen(),
   ];
 
   void onItemTapped(int index) {
@@ -43,13 +44,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
               label: "Home"),
           BottomNavigationBarItem(
               icon: _selectedIndex == 1
-                  ? const Icon(Icons.shopping_basket)
-                  : const Icon(Icons.shopping_basket_outlined),
+                  ? const Icon(Icons.list_alt)
+                  : const Icon(Icons.list_alt_outlined),
               label: "Basket"),
           BottomNavigationBarItem(
               icon: _selectedIndex == 2
-                  ? const Icon(Icons.favorite)
-                  : const Icon(Icons.favorite_outline),
+                  ? const Icon(Icons.settings)
+                  : const Icon(Icons.settings_outlined),
               label: "Favorites"),
         ],
       ),
